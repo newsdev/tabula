@@ -8,6 +8,7 @@
   <property name="full_version" value="0.9.6.0"/>
   <property name="launch4j.dir" location="${build.dir}/../launch4j"  />
   <property name="launch4j.bindir" location="${build.dir}/../launch4j/bin" />
+  <property name="java_home" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home"/>
 
   <target name="check-jar-exists">
     <available file="${build.dir}/tabula.jar" property="jar.exists"/>
@@ -16,31 +17,24 @@
   <target name="macbundle" depends="check-jar-exists" if="jar.exists">
     <mkdir dir="${mac.dir}"/>
     <taskdef
-        name="jarbundler"
-        classname="net.sourceforge.jarbundler.JarBundler"
-        classpath="${build.dir}/jarbundler-2.2.0.jar"
+        name="bundleapp"
+        classname="com.oracle.appbundler.AppBundlerTask"
+        classpath="${build.dir}/appbundler-1.0.jar"
         />
 
-    <jarbundler
-        dir="${build.dir}/mac"
+    <bundleapp
+        outputdirectory="${build.dir}/mac"
         name="Tabula"
-        shortname="Tabula"
-        mainclass="WarMain"
-        version="${full_version}"
-        infostring="© 2012-2014 Manuel Aristarán"
-        aboutmenuname="Tabula"
+        displayname="Tabula"
+        identifier="org.nerdpower.tabula.Tabula"
         icon="${build.dir}/icons/tabula.icns"
-        workingdirectory="$APP_PACKAGE/Contents/Resources"
-        jvmversion="1.6+"
-        bundleid="org.nerdpower.tabula.Tabula"
-        vmoptions="-Xms256M -Xmx1024M -Dfile.encoding=utf-8"
-        antialiasedgraphics="true"
-        antialiasedtext="true"
-        liveresize="true"
-        growboxintrudes="true"
-        screenmenu="true">
-      <jarfilelist dir="${build.dir}" files="tabula.jar" />
-    </jarbundler>
+        shortversion="${full_version}"
+        mainclassname="WarMain"
+      >
+        <runtime dir="${java_home}" />
+        <classpath file="${build.dir}/tabula.jar" />
+        <option value="-Dapple.laf.useScreenMenuBar=true"/>
+    </bundleapp>
     <exec executable="codesign" os="Mac OS X">
       <!--
         Generate a self-signed "Code Signing" certificate[1] and give it the
