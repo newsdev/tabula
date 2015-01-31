@@ -5,10 +5,10 @@
   <property name="build.dir" value="build"/>
   <property name="mac.dir" value="${build.dir}/mac" />
   <property name="windows.dir" value="${build.dir}/windows" />
-  <property name="full_version" value="0.9.6.0"/>
+  <property name="full_version" value="0.9.7.0"/>
   <property name="launch4j.dir" location="${build.dir}/../launch4j"  />
   <property name="launch4j.bindir" location="${build.dir}/../launch4j/bin" />
-  <property name="java_home" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_20.jdk/Contents/Home"/>
+  <property name="java_home" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_31.jdk/Contents/Home"/>
 
   <target name="check-jar-exists">
     <available file="${build.dir}/tabula.jar" property="jar.exists"/>
@@ -78,7 +78,7 @@
             fileVersion="${full_version}"
             txtFileVersion="${full_version}"
             fileDescription="tabula"
-            copyright="© 2012-2014 Manuel Aristarán"
+            copyright="© 2012-2015 Manuel Aristarán"
             productVersion="${full_version}"
             txtProductVersion="${full_version}"
             productName="Tabula"
