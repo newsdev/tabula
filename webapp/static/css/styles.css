@@ -9533,7 +9533,7 @@ form {
 #main-pane .page {
   width: 100%;
   max-width: 800px;
-  min-width: 560px;
+  min-width: 800px;
   -webkit-box-shadow: 0 0 2em rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 2em rgba(0, 0, 0, 0.4);
   position: relative;
@@ -9545,7 +9545,7 @@ form {
   display: block;
   width: 100%;
   max-width: 800px;
-  min-width: 560px;
+  min-width: 800px;
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -9557,7 +9557,7 @@ form {
 }
 /* line 302, ../sass/styles.scss */
 #main-pane .selection-box, #main-pane .table-region {
-  border: 6px dashed rgba(224, 1, 1, 0.8);
+  border: 0px dashed rgba(224, 1, 1, 0.8);
   background: rgba(224, 1, 1, 0.2);
 }
 /* line 305, ../sass/styles.scss */

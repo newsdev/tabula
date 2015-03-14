@@ -88,7 +88,7 @@ Tabula.Selection = Backbone.Model.extend({
         /* which causes thumbnails to be created, Download All button to know about these selections. */
       }
     }, this));
-  },
+  }
 });
 
 // Not currently used at all.
@@ -541,7 +541,7 @@ Tabula.DocumentView = Backbone.View.extend({ // Singleton
       remove: pv._onSelectCancel
     });
     pv._onSelectEnd(rs);
-    this.$el.append(rs.el);
+    pv.$el.append(rs.el);
     rs.$el.css('z-index', 100 - this._selectionsGetter($(d.pageView)).length);
   },
 
@@ -643,6 +643,7 @@ Tabula.PageView = Backbone.View.extend({ // one per page of the PDF
                     'number': this.model.get('number'),
                     'image_url': this.model.get('image_url')
                   }));
+
     this.$el.find('img').attr('data-page', this.model.get('number'))
                         .attr('data-original-width', this.model.get('width'))
                         .attr('data-original-height', this.model.get('height'))
@@ -1127,7 +1128,7 @@ Tabula.PDFView = Backbone.View.extend(
       var vendorSelection = new ResizableSelection({
         position: absolutePos,
         target: pageView.$el.find('img'),
-        areas: function(){ return Tabula.pdf_view.components['document_view']._selectionsGetter($img) }
+        areas: function(){ return Tabula.pdf_view.components['document_view']._selectionsGetter($img); }
       });
       vendorSelection.on({
         resize: _.debounce(pageView._onSelectChange, 100),

@@ -71,26 +71,25 @@
     },
 
     // to be called when this.pageView changes size (ie, window.resize triggered)
-    // also, when we implement page zooming should also be called
+    // also, it should also be called when we implement page zooming
     update: function() {
       var newTargetSize = _.extend($(this.pageView).offset(), {
         width: $(this.pageView).width(),
         height: $(this.pageView).height()
       });
 
-      // if resize needed
+
+      // if scale/translate needed
       if (!_.isEqual(newTargetSize, this.pageViewSize)) {
+        // TODO to be used when we support scaling of pageViews (via window.resize or zoom)
+        //var scaleFactor = newTargetSize.width / this.pageViewSize.width;
         var oldDims = this.getDims().absolutePos;
-        //console.log('old', this.pageViewSize);
-        //console.log('new', newTargetSize);
-        //console.log('perc', oldDims.top * (newTargetSize.height / this.pageViewSize.height));
-        // console.log('diff left', newTargetSize.left - this.pageViewSize.left);
 
         var css = {
-          top: oldDims.top + newTargetSize.top - this.pageViewSize.top,
-          left: oldDims.left + newTargetSize.left - this.pageViewSize.left,
-          width: oldDims.width * (newTargetSize.width / this.pageViewSize.width),
-          height: oldDims.height * (newTargetSize.height / this.pageViewSize.height)
+          top: oldDims.top + (newTargetSize.top - this.pageViewSize.top),
+          left: oldDims.left + (newTargetSize.left - this.pageViewSize.left),
+          width: oldDims.width,
+          height: oldDims.height
         };
         this.$el.css(css);
         this.cachedDims = undefined;
