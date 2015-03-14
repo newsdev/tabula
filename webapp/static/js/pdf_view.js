@@ -1019,7 +1019,7 @@ Tabula.PDFView = Backbone.View.extend(
 
       $(document).on('scroll', _.throttle(this.handleScroll, 100, {leading: false}));
       $('#sidebar').on('scroll', _.throttle(this.handleScroll, 100, {leading: false}));
-      $(window).on('resize', _.throttle(_.bind(this.updateActiveSelections, this), 100, {leading: false}));
+      $(window).on('resize', _.throttle(_.bind(this.updateActiveSelections, this), 50, {leading: false}));
 
 
       $('body').
@@ -1190,7 +1190,9 @@ Tabula.PDFView = Backbone.View.extend(
     },
 
     updateActiveSelections: function() {
-      console.log(this.pdf_document.selections);
+      this.pdf_document.selections.forEach(function(s) {
+        s.attributes.update();
+      });
     },
 
     render : function(){

@@ -1,5 +1,5 @@
 /* jshint undef: true, unused: true */
-/* global $, paper, Backbone, _, console */
+/* global $, paper, Backbone, _, console, document */
 
 (function (name, context, definition) {
   if (typeof module != 'undefined' && module.exports) module.exports = definition();
@@ -43,6 +43,11 @@
       this.render();
       this.$el.css(options.position);
 
+      this.pageViewSize = _.extend($(options.target).offset(), {
+        width: $(options.target).width(),
+        height: $(options.target).height()
+      });
+
       $(options.target).on({
         mousemove: _.bind(this.mouseMoveResize, this),
         mouseup: _.bind(this.mouseUpResize, this)
@@ -65,6 +70,33 @@
       Backbone.View.prototype.remove.call(this);
     },
 
+    // to be called when this.pageView changes size (ie, window.resize triggered)
+    // also, when we implement page zooming should also be called
+    update: function() {
+      var newTargetSize = _.extend($(this.pageView).offset(), {
+        width: $(this.pageView).width(),
+        height: $(this.pageView).height()
+      });
+
+      // if resize needed
+      if (!_.isEqual(newTargetSize, this.pageViewSize)) {
+        var oldDims = this.getDims().absolutePos;
+        //console.log('old', this.pageViewSize);
+        //console.log('new', newTargetSize);
+        //console.log('perc', oldDims.top * (newTargetSize.height / this.pageViewSize.height));
+        // console.log('diff left', newTargetSize.left - this.pageViewSize.left);
+
+        var css = {
+          top: oldDims.top + newTargetSize.top - this.pageViewSize.top,
+          left: oldDims.left + newTargetSize.left - this.pageViewSize.left,
+          width: oldDims.width * (newTargetSize.width / this.pageViewSize.width),
+          height: oldDims.height * (newTargetSize.height / this.pageViewSize.height)
+        };
+        this.$el.css(css);
+        this.cachedDims = undefined;
+        this.pageViewSize = newTargetSize;
+      }
+    },
 
     getDims: function() {
       if((!$(this.pageView).is(':visible') || !this.$el.is(':visible')) && this.cachedDims){
@@ -73,7 +105,7 @@
       var o = { top: parseFloat(this.$el.css('top')),
                 left: parseFloat(this.$el.css('left')) };
       var targetPos = $(this.pageView).offset();
-      // console.log($(this.pageView).is(':visible'), this.$el.is(':visible'));
+
       this.cachedDims = {
         id: this.id,
         "$el": this.$el,
@@ -155,7 +187,8 @@
             thisDims.top + thisDims.height < sDims.top ||
             sDims.top + sDims.height < thisDims.top;
         }, this);
-    }
+    },
+
   });
 
   return ResizableSelection;
