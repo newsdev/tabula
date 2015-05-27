@@ -134,4 +134,4 @@ Tabula.DebugPDFView = {
     debugTextChunks: function(image) {
       return this._debugRectangularShapes(image, '/debug/' + PDF_ID + '/text_chunks');
     }
-})
+}
