@@ -1,0 +1,170 @@
+/* line 1, ../sass/selectors.scss */
+.thumbnail-list li div.selection-show {
+  position: absolute;
+  border: 1px dashed red;
+  display: none;
+  pointer-events: none;
+}
+
+/* selections */
+/* line 9, ../sass/selectors.scss */
+.repeat-lassos.btn {
+  position: absolute;
+  right: -165px;
+  bottom: -35px;
+}
+
+/* rectangularSelector.js classes */
+/* line 16, ../sass/selectors.scss */
+.selection-box, .table-region {
+  position: absolute;
+  border: 1px dashed rgba(255, 87, 0, 0.8);
+  background: rgba(255, 87, 0, 0.2);
+  box-sizing: border-box;
+}
+/* line 24, ../sass/selectors.scss */
+.selection-box:hover, .table-region:hover {
+  cursor: pointer;
+}
+
+/* line 29, ../sass/selectors.scss */
+.selection-box {
+  z-index: 42;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+/* line 36, ../sass/selectors.scss */
+.table-region {
+  top: 0;
+  left: 0;
+  z-index: 21;
+}
+
+/* line 43, ../sass/selectors.scss */
+div.table-region .resize-handle {
+  position: absolute;
+}
+
+/* line 51, ../sass/selectors.scss */
+div.table-region .n-border {
+  width: calc(100% - 10px);
+  top: -5px;
+  left: 5px;
+  height: 10px;
+}
+
+/* line 58, ../sass/selectors.scss */
+div.table-region .s-border {
+  width: calc(100% - 10px);
+  bottom: -5px;
+  left: 5px;
+  height: 10px;
+}
+
+/* line 65, ../sass/selectors.scss */
+div.table-region .w-border {
+  height: calc(100% - 10px);
+  left: -5px;
+  top: 5px;
+  width: 10px;
+}
+
+/* line 72, ../sass/selectors.scss */
+div.table-region .e-border {
+  height: calc(100% - 10px);
+  top: 5px;
+  right: -5px;
+  width: 10px;
+}
+
+/* line 79, ../sass/selectors.scss */
+div.table-region .nw-border {
+  width: 10px;
+  height: 10px;
+  top: -5px;
+  left: -5px;
+}
+
+/* line 84, ../sass/selectors.scss */
+div.table-region .ne-border {
+  width: 10px;
+  height: 10px;
+  top: -5px;
+  right: -5px;
+}
+
+/* line 89, ../sass/selectors.scss */
+div.table-region .sw-border {
+  width: 10px;
+  height: 10px;
+  bottom: -5px;
+  left: -5px;
+}
+
+/* line 94, ../sass/selectors.scss */
+div.table-region .se-border {
+  width: 10px;
+  height: 10px;
+  bottom: -5px;
+  right: -5px;
+}
+
+/* line 99, ../sass/selectors.scss */
+div.table-region .n-border:hover {
+  cursor: n-resize;
+}
+
+/* line 102, ../sass/selectors.scss */
+div.table-region .nw-border:hover {
+  cursor: nw-resize;
+}
+
+/* line 105, ../sass/selectors.scss */
+div.table-region .ne-border:hover {
+  cursor: ne-resize;
+}
+
+/* line 108, ../sass/selectors.scss */
+div.table-region .s-border:hover {
+  cursor: s-resize;
+}
+
+/* line 111, ../sass/selectors.scss */
+div.table-region .sw-border:hover {
+  cursor: sw-resize;
+}
+
+/* line 114, ../sass/selectors.scss */
+div.table-region .se-border:hover {
+  cursor: se-resize;
+}
+
+/* line 117, ../sass/selectors.scss */
+div.table-region .w-border:hover {
+  cursor: w-resize;
+}
+
+/* line 120, ../sass/selectors.scss */
+div.table-region .e-border:hover {
+  cursor: e-resize;
+}
+
+/* line 126, ../sass/selectors.scss */
+div.table-region button[name=close] {
+  font-weight: bold;
+  border: 0;
+  background-color: transparent;
+  padding: 0;
+  font-size: 20px;
+  position: relative;
+  top: -25px;
+  left: 100%;
+  margin-left: 5px;
+}
+
+/* line 138, ../sass/selectors.scss */
+div.table-region button[name=close]:hover {
+  color: red;
+}
