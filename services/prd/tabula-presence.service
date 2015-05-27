@@ -1,0 +1,22 @@
+[Unit]
+Description=tabula-presence
+Requires=etcd.service
+Requires=tabula.service
+After=etcd.service
+After=tabula.service
+BindsTo=tabula.service
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStartPre=-/usr/bin/docker kill tabula-presence
+ExecStartPre=-/usr/bin/docker rm tabula-presence
+ExecStartPre=/usr/bin/docker pull buth/remora:latest
+ExecStart=/usr/bin/docker run \
+  --name tabula-presence \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  buth/remora:latest -i 30s -p 9292 -C http://${COREOS_PRIVATE_IPV4}:4001 -a ${COREOS_PRIVATE_IPV4} tabula /promise/services/tabula/1
+ExecStop=/usr/bin/docker kill tabula-presence
+ExecStop=/usr/bin/etcdctl rm /promise/services/tabula/1
+
+[X-Fleet]
+MachineOf=tabula.service

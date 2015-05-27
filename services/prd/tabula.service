@@ -1,0 +1,46 @@
+[Unit]
+Description=tabula
+Requires=docker.service
+Requires=tabula-presence.service
+Wants=context.service
+After=docker.service
+After=context.service
+Before=tabula-presence.service
+
+[Service]
+Restart=always
+RestartSec=5s
+TimeoutStartSec=0
+KillMode=none
+EnvironmentFile=/etc/environment
+
+# Kill service remnants.
+ExecStartPre=-/usr/bin/docker kill tabula tabula-assets tabula-assets-deploy
+ExecStartPre=-/usr/bin/docker rm tabula tabula-assets tabula-assets-deploy
+
+# Pull the current application code.
+ExecStartPre=/usr/bin/docker pull registry.newsdev.net/tabula:latest
+ExecStartPre=/usr/bin/docker pull nytinteractive/assets-deploy:latest
+
+# Set up a data-only container for assets and run the assets deploy against it.
+ExecStartPre=/opt/bin/context exec -g tabula -t '-e {}' /usr/bin/docker run {} \
+  --name tabula-assets \
+  -v  /usr/src/app/webapp/static \
+  registry.newsdev.net/tabula:latest echo 'loading assets'
+ExecStartPre=/opt/bin/context exec -g assets-deploy -t '-e {}' /usr/bin/docker run {} \
+  --name tabula-assets-deploy \
+  --volumes-from tabula-assets \
+  -e AWS_BUCKET=int.nyt.com -e STORAGE_PATH=/docker/tabula \
+  nytinteractive/assets-deploy:latest
+
+# Define the core service.
+ExecStart=/opt/bin/context exec -g tabula -t '-e {}' /usr/bin/docker run {} \
+  --name tabula \
+  --dns 10.50.32.125 --dns 10.90.32.125 \
+  -m 400m \
+  -p 9292 \
+  registry.newsdev.net/tabula:latest
+ExecStop=/usr/bin/docker stop tabula
+
+[X-Fleet]
+Conflicts=tabula.service
