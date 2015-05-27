@@ -25,7 +25,7 @@ ExecStartPre=/usr/bin/docker pull nytinteractive/assets-deploy:latest
 # Set up a data-only container for assets and run the assets deploy against it.
 ExecStartPre=/opt/bin/context exec -g tabula -t '-e {}' /usr/bin/docker run {} \
   --name tabula-assets \
-  -v  /usr/src/app/webapp/static \
+  -v  /usr/src/app/public \
   registry.newsdev.net/tabula:latest echo 'loading assets'
 ExecStartPre=/opt/bin/context exec -g assets-deploy -t '-e {}' /usr/bin/docker run {} \
   --name tabula-assets-deploy \

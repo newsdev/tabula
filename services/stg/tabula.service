@@ -23,7 +23,7 @@ ExecStartPre=/usr/bin/docker pull registry.newsdev.net/tabula:staging
 ExecStartPre=/usr/bin/docker pull nytinteractive/assets-deploy:latest
 
 # Set up a data-only container for assets and run the assets deploy against it.
-ExecStartPre=/opt/bin/context exec -g tabula -t '-e {}' /usr/bin/docker run {}   --name tabula-assets   -v /usr/src/app/webapp/static   registry.newsdev.net/tabula:staging echo 'loading assets'
+ExecStartPre=/opt/bin/context exec -g tabula -t '-e {}' /usr/bin/docker run {}   --name tabula-assets   -v /usr/src/app/public   registry.newsdev.net/tabula:staging echo 'loading assets'
 ExecStartPre=/opt/bin/context exec -g assets-deploy -t '-e {}' /usr/bin/docker run {}   --name tabula-assets-deploy   --volumes-from tabula-assets   -e AWS_BUCKET=int.stg.nyt.com -e STORAGE_PATH=/docker/tabula   nytinteractive/assets-deploy:latest
 
 # Define the core service.
