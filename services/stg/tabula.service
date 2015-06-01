@@ -23,11 +23,11 @@ ExecStartPre=/usr/bin/docker pull registry.newsdev.net/tabula:staging
 ExecStartPre=/usr/bin/docker pull nytinteractive/assets-deploy:latest
 
 # Set up a data-only container for assets and run the assets deploy against it.
-ExecStartPre=/opt/bin/context exec -g tabula -t '-e {}' /usr/bin/docker run --rm {}   --name tabula-assets   -v /usr/src/app/public   registry.newsdev.net/tabula:staging echo 'loading assets'
-ExecStartPre=/opt/bin/context exec -g assets-deploy -t '-e {}' /usr/bin/docker run --rm {}   --name tabula-assets-deploy   --volumes-from tabula-assets   -e AWS_BUCKET=int.stg.nyt.com -e STORAGE_PATH=/docker/tabula   nytinteractive/assets-deploy:latest
+ExecStartPre=/opt/bin/context exec -g tabula -t '-e {}' /usr/bin/docker run {}   --name tabula-assets   -v /usr/src/app/public   registry.newsdev.net/tabula:staging echo 'loading assets'
+ExecStartPre=/opt/bin/context exec -g assets-deploy -t '-e {}' /usr/bin/docker run {}   --name tabula-assets-deploy   --volumes-from tabula-assets   -e AWS_BUCKET=int.stg.nyt.com -e STORAGE_PATH=/docker/tabula   nytinteractive/assets-deploy:latest
 
 # Define the core service.
-ExecStart=/opt/bin/context exec -g tabula -t '-e {}' /usr/bin/docker run --rm {}   --name tabula   --dns 10.50.32.125 --dns 10.90.32.125   -p 9292   registry.newsdev.net/tabula:staging bundle exec rackup -p 9292
+ExecStart=/opt/bin/context exec -g tabula -t '-e {}' /usr/bin/docker run {}   --name tabula   --dns 10.50.32.125 --dns 10.90.32.125   -p 9292   registry.newsdev.net/tabula:staging bundle exec rackup -p 9292
 ExecStop=/usr/bin/docker stop tabula
 
 [X-Fleet]
