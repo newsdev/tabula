@@ -1,0 +1,20 @@
+{
+  "deckfile_version": 1.1,
+  "name": "Stevedore",
+  "summary": "A tool for extracting tables from PDFs",
+  "description": "<p>A quick, easy tool for extracting tables and spreadsheets from PDFs. If a PDF has a data table, upload it to Tabula, draw a box around the table and download your data in Excel format. N.B., if the PDF is scanned (i.e. you can't click-and-drag to select the numbers in the table), it won't work.",
+  "byline": "By Jeremy B. Merrill",
+  "tooltype": "tool",
+  "url": {
+    "production": "http://tabula.prd.newsdev.nytimes.com/",
+    "staging": "http://tabula.stg.newsdev.nytimes.com/"
+  },
+  "contact_email": "jeremy.merrill@nytimes.com",
+  "contact_name": "Jeremy B. Merrill",
+  "examples_json": [
+    { 
+      "headline": "TKTK",
+      "url": "http://www.nytimes.com"
+    }
+  ]
+}

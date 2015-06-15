@@ -1,8 +1,6 @@
 [Unit]
 Description=tabula-presence
-Requires=etcd.service
 Requires=tabula.service
-After=etcd.service
 After=tabula.service
 BindsTo=tabula.service
 
