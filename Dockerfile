@@ -1,18 +1,4 @@
-FROM java:openjdk-7-jdk
-
-##
-#
-# Why all this crap? Because openjdk Java 8 has bad bindings to native libjpeg
-# So we're stuck with Java 7.
-# 
-## 
-
-ENV JRUBY_VERSION 1.7.18
-RUN mkdir /opt/jruby \
-  && curl http://jruby.org.s3.amazonaws.com/downloads/${JRUBY_VERSION}/jruby-bin-${JRUBY_VERSION}.tar.gz \
-  | tar -zxC /opt/jruby --strip-components=1 \
-  && update-alternatives --install /usr/local/bin/ruby ruby /opt/jruby/bin/jruby 1
-ENV PATH /opt/jruby/bin:$PATH
+FROM jruby:1.7.20.1-jdk
 
 RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
 
