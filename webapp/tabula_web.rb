@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'cuba'
 require 'cuba/render'
-require 'rufus-lru'
 
 require 'digest/sha1'
 require 'json'
@@ -177,19 +176,6 @@ Cuba.define do
   end # /get
 
   on post do
-    # on 'upload' do
-    #   # Make sure this is a PDF, before doing anything
-    #   unless is_valid_pdf?(req.params['file'][:tempfile].path)
-    #     res.status = 400
-    #     res.write view("upload_error.html",
-    #                    :message => "Sorry, the file you uploaded was not detected as a PDF. You must upload a PDF file. <a href='/'>Please try again</a>.")
-    #     next # halt this handler
-    #   end
-
-    #   job_batch, file_id = *upload(req)
-    #   res.redirect "/queue/#{job_batch}?file_id=#{file_id}"
-    # end
-
     on 'upload.json' do
       # Make sure this is a PDF, before doing anything
 
@@ -253,7 +239,7 @@ Cuba.define do
         ]
       end
 
-      tables = Tabula.extract_tables(pdf_path, coords).to_a.flatten(1)
+      tables = Tabula.extract_tables(pdf_path, coords)
 
       filename =  if req.params['new_filename'] && req.params['new_filename'].strip.size
                     basename = File.basename(req.params['new_filename'], File.extname(req.params['new_filename']))
@@ -326,7 +312,16 @@ Cuba.define do
         res.write coords.to_json
      else
         res['Content-Type'] = 'application/json'
-        res.write tables.to_json
+
+        # start JSON array
+        res.write  "["
+        tables.each_with_index do |table, index|
+          res.write ", " if index > 0
+          res.write table.to_json
+        end
+
+        # end JSON array
+        res.write "]"
       end
     end
   end
