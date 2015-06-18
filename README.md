@@ -217,7 +217,7 @@ needs "tabula.jar" (contained in "build") in the same directory. You can create 
 
 ## Contributing
 
-Interested in helping out? We'd love to have your help!
+Interested in helping out? We'd love to have your help!!
 
 You can help by:
 
