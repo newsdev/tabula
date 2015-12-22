@@ -6,6 +6,9 @@
 
 # Tabula
 
+[tabula `master`](https://github.com/tabulapdf/tabula/tree/master) [![Build Status](https://travis-ci.org/tabulapdf/tabula.svg?branch=master)](https://travis-ci.org/tabulapdf/tabula)  
+[tabula-extractor `master`](https://github.com/tabulapdf/tabula-extractor/tree/master) [![Build Status](https://travis-ci.org/tabulapdf/tabula-extractor.svg?branch=master)](https://travis-ci.org/tabulapdf/tabula-extractor)
+
 Tabula helps you liberate data tables trapped inside PDF files.
 
 * [Download from the official site](http://tabula.technology/)
@@ -66,9 +69,9 @@ and then try again.
 [jre_download]: https://www.java.com/download/
 [tabula_dl]: http://tabula.technology
 
-Tabula binds to port 8080 by default. You can change it with the `jetty.port` property:
+Tabula binds to port 8080 by default. You can change it with the `warbler.port` property:
 
-`java -Dfile.encoding=utf-8 -Xms256M -Xmx1024M -Djetty.port=9999 -jar tabula.jar`
+`java -Dfile.encoding=utf-8 -Xms256M -Xmx1024M -Dwarbler.port=9999 -jar tabula.jar`
 
 
 ## <a name="knownissues">Known issues</a>
@@ -99,9 +102,9 @@ There are some bugs that we're aware of that we haven't managed to fix yet. If t
   4. Run Tabula by typing `tabula.exe`
 
 * <a name='portproblems'>**A browser tab opens, but something other than Tabula loads there. Or Tabula doesn't start.**</a>
-  It's possible another program is using port 8080, whichh Tabula binds to by default. You can try closing the other program, or change the port Tabula uses by running Tabula from the terminal with the `jetty.port` property:
+  It's possible another program is using port 8080, whichh Tabula binds to by default. You can try closing the other program, or change the port Tabula uses by running Tabula from the terminal with the `warbler.port` property:
 
-  `java -Dfile.encoding=utf-8 -Xms256M -Xmx1024M -Djetty.port=9999 -jar tabula.jar`
+  `java -Dfile.encoding=utf-8 -Xms256M -Xmx1024M -Dwarbler.port=9999 -jar tabula.jar`
 
 
 ## Running Tabula from source (for developers)
@@ -169,13 +172,9 @@ To compile the app:
 This will result in a portable "tabula_mac.zip" archive (inside the `build` directory)
 for Mac OS X users.
 
-A "large" version of Tabula, which includes Java (so that the user's Java version
-is irrelevant) can be built by doing:
-
-    rake bigmac
-
-This results in a 98MB zip file, versus the 30MB zip file for the normal build,
-but allows users to run Tabula without having to worry about occasional [Java
+Note that the Mac version bundles Java with the Tabula app.
+This results in a 98MB zip file, versus the 30MB zip file for other platforms,
+but allows users to run Tabula without having to worry about [Java version
 incompatibilities](https://github.com/tabulapdf/tabula/issues/237).
 
 [buildxml_cert]: https://github.com/jazzido/tabula/blob/master/build.xml#L44-53
@@ -188,6 +187,8 @@ Download a [3.1.X (beta) copy of Launch4J][launch4j].
 
 Unzip it into the Tabula repo so that "launch4j" (with subdirectories "bin", etc.)
 is in the repository root.
+
+(If you're building on a 64bit Linux, you may need to install 32bit libs like, in Ubuntu `sudo apt-get install lib32z1 lib32ncurses5`)
 
 
 Then:
@@ -229,5 +230,5 @@ You can help by:
 
 - [Reporting a bug](https://github.com/jazzido/tabula).
 - Adding or editing documentation.
-- Contributing code via a Pull Request from ideas or bugs listed in the [Enhancements](https://github.com/tabulapdf/tabula/labels/enhancement) section of the issues. [see CONTRIBUTING.md]
+- Contributing code via a Pull Request from ideas or bugs listed in the [Enhancements](https://github.com/tabulapdf/tabula/labels/enhancement) section of the issues. [see `CONTRIBUTING.md`](CONTRIBUTING.md)
 - Spreading the word about Tabula to people who might be able to benefit from using it.
