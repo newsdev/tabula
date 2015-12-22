@@ -1,4 +1,4 @@
-FROM jruby:1.7.20.1-jdk
+FROM jruby:9.0-jdk
 
 RUN echo 'gem: --no-rdoc --no-ri' >> /.gemrc
 
@@ -14,7 +14,7 @@ ENV BUNDLE_APP_CONFIG $GEM_HOME
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-# these didn't work as ONBUILD, strangely. Idk why. -BJBM
+# these didn't work as ONBUILD, strangely. Idk why. -JBM
 ADD Gemfile /usr/src/app/
 ADD Gemfile.lock /usr/src/app/
 RUN bundle install --system
