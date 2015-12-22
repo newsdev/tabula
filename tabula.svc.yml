@@ -15,7 +15,7 @@ spec:
   ports:
   - name: http
     # the port that the service serves on
-    port: 9292
+    port: 80
     # the port the container accepts traffic on
-    targetPort: 80
+    targetPort: 9292
     protocol: TCP

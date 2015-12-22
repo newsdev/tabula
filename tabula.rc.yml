@@ -19,13 +19,13 @@ spec:
     spec:
       containers:
       - name: tabula
-        image: tabula
+        image: quay.io/newsdev/tabula:v1.0.1
         resources:
           limits:
             cpu: 50m
-            memory: 100Mi
+            memory: 400Mi
         ports:
-        - containerPort: 80
+        - containerPort: 9292
           name: http
           protocol: TCP
       dnsPolicy: Default

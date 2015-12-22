@@ -20,4 +20,5 @@ ADD Gemfile.lock /usr/src/app/
 RUN bundle install --system
 ADD . /usr/src/app
 
-ONBUILD bundle exec rackup
+EXPOSE 9292
+CMD ["rackup", "-o", "0.0.0.0"]
