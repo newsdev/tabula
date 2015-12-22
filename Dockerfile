@@ -19,3 +19,5 @@ ADD Gemfile /usr/src/app/
 ADD Gemfile.lock /usr/src/app/
 RUN bundle install --system
 ADD . /usr/src/app
+
+ONBUILD bundle exec rackup

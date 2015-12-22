@@ -1,25 +1,25 @@
 apiVersion: v1
 kind: ReplicationController
 metadata:
-  name: tabula-v1.0.0
-  namespace: pub
+  name: tabula
+  namespace: adm
   labels:
     app: tabula
-    version: v1.0.0
+    version: v1.0.1
 spec:
   replicas: 1
   selector:
     app: tabula
-    version: v1.0.0
+    version: v1.0.1
   template:
     metadata:
       labels:
         app: tabula
-        version: v1.0.0
+        version: v1.0.1
     spec:
       containers:
-      - name: nginx
-        image: nginx
+      - name: tabula
+        image: tabula
         resources:
           limits:
             cpu: 50m
