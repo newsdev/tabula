@@ -10,7 +10,7 @@ require 'fileutils'
 require 'securerandom'
 
 
-require_relative '../lib/jars/tabula-extractor-0.7.4-SNAPSHOT-jar-with-dependencies.jar'
+require_relative '../lib/jars/tabula-0.8.0-jar-with-dependencies.jar'
 
 require_relative '../lib/tabula_java_wrapper.rb'
 java_import 'java.io.ByteArrayOutputStream'
