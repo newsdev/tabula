@@ -2,13 +2,19 @@
 
 Tabula helps you liberate data tables trapped inside PDF files.
 
+* The latest downloads and documentation are always available at:
+  http://tabula.technology/
+
 * Read more about Tabula on OpenNews Source:
-  https://source.mozillaopennews.org/en-US/articles/introducing-tabula/
+  https://source.opennews.org/en-US/articles/introducing-tabula/
 
-* See the GitHub project for source code, bug reports, and more:
-  https://github.com/jazzido/tabula
+* See the GitHub project for source code, technical info, and more:
+  https://github.com/tabulapdf/tabula
 
-© 2012-2013 Manuel Aristarán. Available under MIT License.
+* Find a bug? Report it on GitHub:
+  https://github.com/tabulapdf/tabula/issues
+
+© 2012-2016 Manuel Aristarán. Available under MIT License.
 See `AUTHORS.txt` and `LICENSE.txt`.
 
 ---
@@ -38,9 +44,11 @@ then run the following command
 
   java -Dfile.encoding=utf-8 -Xms256M -Xmx1024M -jar tabula.jar
 
-Tabula binds to port 8080 by default. You can change it with the
-`warbler.port` option:
+Then, manually open your web browser to http://127.0.0.1:8080/ to access
+the Tabula interface. Tabula binds to port 8080 by default. You can change
+it with the `warbler.port` option; for example, if you want to use port 9999:
 
   java -Dfile.encoding=utf-8 -Xms256M -Xmx1024M -Dwarbler.port=9999 -jar tabula.jar
 
-(Known bug: If using this flag, the browser may open to the wrong port number.)
+(You can enable the old "automatically open browser" behavior by using
+the `-Dtabula.openBrowser=true` option.)

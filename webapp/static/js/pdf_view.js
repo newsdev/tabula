@@ -62,9 +62,9 @@ Tabula.Selection = Backbone.Model.extend({
 
     var original_pdf_width = page.get('width');
     var original_pdf_height = page.get('height');
-    var pdf_rotation = page.get('rotation');
+    // var pdf_rotation = page.get('rotation');
 
-    var scale = (Math.abs(pdf_rotation) == 90 ? original_pdf_height : original_pdf_width) / imageWidth;
+    var scale = original_pdf_width / imageWidth;
     var rp = this.attributes.getDims().relativePos;
     this.set({
       x1: rp.left * scale,
@@ -296,15 +296,20 @@ Tabula.Query = Backbone.Model.extend({
           // this only needs to happen on the first select, when we don't know what the extraction method is yet
           // (because it's set by the heuristic on the server-side).
           // TODO: only execute it when one of the list_of_coords has guess or undefined as its extraction_method
-          _(_.zip(this.get('list_of_coords'), resp)).each(function(stuff, i){
-            var coord_set = stuff[0];
-            var resp_item = stuff[1];
+          _(resp).each(_.bind(function(resp_item, i){
+            var coord_set = this.get('list_of_coords')[resp_item['spec_index']];
+          // _(_.zip(this.get('list_of_coords'), resp)).each(function(stuff, i){
+            // var coord_set = stuff[0];
+            // var resp_item = stuff[1];
+            // if(!coord_set) return; // DIRTY HACK, see https://github.com/tabulapdf/tabula/issues/497
+            //                        // if one set of coords returns 2+ tables, 
+            //                        // then this zip won't work.
             if (stashed_selections.get(coord_set.selection_id)){
               stashed_selections.get(coord_set.selection_id).
                 set('extraction_method', resp_item["extraction_method"]);
             }
             coord_set["extraction_method"] = resp_item["extraction_method"];
-          });
+          },this));
 
           this.trigger("tabula:query-success");
 
@@ -708,8 +713,8 @@ Tabula.PageView = Backbone.View.extend({ // one per page of the PDF
                   }));
     this.$el.find('img').attr('data-page', this.model.get('number'))
                         .attr('data-original-width', this.model.get('width'))
-                        .attr('data-original-height', this.model.get('height'))
-                        .attr('data-rotation', this.model.get('rotation'));
+                        .attr('data-original-height', this.model.get('height'));
+                        // .attr('data-rotation', this.model.get('rotation'));
     this.$image = this.$el.find('img');
     return this;
   },
@@ -1139,7 +1144,7 @@ Tabula.PDFView = Backbone.View.extend(
       var page = Tabula.pdf_view.pdf_document.page_collection.findWhere({number: sel.page});
       var original_pdf_width = page.get('width');
       var original_pdf_height = page.get('height');
-      var pdf_rotation = page.get('rotation');
+      // var pdf_rotation = page.get('rotation');
 
       // TODO: create selection models for pages that aren't lazyloaded, but obviously don't display them.
       if(Tabula.LazyLoad && !pageView){
@@ -1152,7 +1157,7 @@ Tabula.PDFView = Backbone.View.extend(
       if (!$img.length || $img.data('loaded') !== 'loaded' || !$img.height() ){ // if this page isn't shown currently or the image hasn't been rendered yet, then create a hidden selectionx
         return this.pdf_document.selections.createHiddenSelection(sel);
       }
-      var scale = image_width / (Math.abs(pdf_rotation) == 90 ? original_pdf_height : original_pdf_width);
+      var scale = image_width / original_pdf_width;
       var offset = $img.offset();
       var absolutePos = _.extend({}, offset,
                                 {

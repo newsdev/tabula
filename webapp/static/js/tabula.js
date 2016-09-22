@@ -2,7 +2,7 @@ var Tabula;
 window.Tabula = Tabula || {};
 $.ajaxSetup({ cache: false }); // fixes a dumb issue where Internet Explorer caches Ajax requests. See https://github.com/tabulapdf/tabula/issues/408
 
-Tabula.UI_VERSION = "1.0.0-2015-08-05" // when we make releases, we should remember to up this.
+Tabula.UI_VERSION = "1.1.0-2016-09-21" // when we make releases, we should remember to up this.
 // Add '-pre' to the end of this for a prerelease version; this will let
 // our "new version" check give you that channel.
 
@@ -104,8 +104,19 @@ Tabula.getNotifications = function(){
           var d = data[i];
           if (!!d.draft) { continue; } // ignore drafts
           if (!prerelease && !!d.prerelease) { continue; } // ignore prereleases unless we're on a prerelease
+
+          var rel_ver_re = /\((\d+\.\d+\.\d+\.\d+)\)/;
           console.log("checking " + d.name + " vs " + Tabula.api_version);
-          if ((non_prerelease_i === 0) && (d.name == Tabula.api_version)){
+
+          // Either the name of the GitHub release is the the version or the
+          // name of the GitHub release contains the full 4-part "build id"
+          // in parenthesis.
+          //   * "1.1.0"
+          //   * "Tabula 1.1.0 Release (1.1.0.16091701)" (YYMMDDxx, with xx as a day-based serial number in case we need it)
+          if ((non_prerelease_i === 0) && (
+            (d.name == Tabula.api_version) ||
+            (!!d.name.match(rel_ver_re) && (d.name.match(rel_ver_re)[1] === Tabula.api_version))
+          )) {
             // if index == 0, current release is the newest, so break out of this fn
             console.log(" -> IS LATEST");
             return;
@@ -123,7 +134,7 @@ Tabula.getNotifications = function(){
       }
   );
   $.ajax({
-    url: 'http://tabula.jeremybmerrill.com/tabula/notifications.jsonp', 
+    url: 'http://tabula.jeremybmerrill.com/tabula/notifications.jsonp',
     dataType: "jsonp",
     jsonpCallback: 'notifications',
     success: function(data){
@@ -132,10 +143,10 @@ Tabula.getNotifications = function(){
       // find the first listed notification where today is between its `live_date` and `expires_date`
       // and within the `versions` list.
       // we might use this for, say, notifying users if a version urgently needs an update or something
-      // 
+      //
       var notifications = $.grep(data, function(d){
         var today = new Date();
-        if ( (d.expires_date && (new Date(d.expires_date) < today)) || (d.live_date && (new Date(d.live_date) > today)) ){ 
+        if ( (d.expires_date && (new Date(d.expires_date) < today)) || (d.live_date && (new Date(d.live_date) > today)) ){
           return false;
         }
         if( d.versions && d.versions.length > 0){

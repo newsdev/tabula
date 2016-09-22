@@ -10,7 +10,7 @@
     "staging": "http://tabula.stg.newsdev.nytimes.com/"
   },
   "contact_email": "jeremy.merrill@nytimes.com",
-  "contact_name": "Jeremy B. Merrill",
+  "contact_name": "Jeremy B. Merrill; (also Mike Tigas and Manuel Aristaran, but they don't work here)",
   "examples_json": [
     { 
       "headline": "TKTK",

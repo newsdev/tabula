@@ -9,8 +9,7 @@ require 'tempfile'
 require 'fileutils'
 require 'securerandom'
 
-
-require_relative '../lib/jars/tabula-0.8.0-jar-with-dependencies.jar'
+require_relative '../lib/jars/tabula-0.9.1-jar-with-dependencies.jar'
 
 require_relative '../lib/tabula_java_wrapper.rb'
 java_import 'java.io.ByteArrayOutputStream'
@@ -279,7 +278,7 @@ Cuba.define do
           # /* use more Entries to add more files
           #    and use closeEntry() to close each file entry */
           zos.putNextEntry(entry)
-          zos.write(table.to_csv.to_java_bytes) # lol java BITES... 
+          zos.write(table.to_csv.to_java_bytes) # lol java BITES...
           zos.closeEntry()
         end
         zos.finish
@@ -302,7 +301,7 @@ Cuba.define do
                                      else
                                         ""
                                      end
-          res.write "tabula #{extraction_method_switch} -a #{c['y1'].round(3)},#{c['x1'].round(3)},#{c['y2'].round(3)},#{c['x2'].round(3)} -p #{c['page']} \"$1\" \n"
+          res.write "java -jar tabula-java.jar #{extraction_method_switch} -a #{c['y1'].round(3)},#{c['x1'].round(3)},#{c['y2'].round(3)},#{c['x2'].round(3)} -p #{c['page']} \"$1\" \n"
         end
       when 'bbox'
         # Write json representation of bounding boxes and pages for
@@ -310,6 +309,21 @@ Cuba.define do
         res['Content-Type'] = 'application/json'
         res['Content-Disposition'] = "attachment; filename=\"#{filename}.json\""
         res.write coords.to_json
+      when 'json'
+        # Write json representation of bounding boxes and pages for
+        # use in OCR and other back ends.
+        res['Content-Type'] = 'application/json'
+        res['Content-Disposition'] = "attachment; filename=\"#{filename}.json\""
+
+        # start JSON array
+        res.write  "["
+        tables.each_with_index do |table, index|
+          res.write ", " if index > 0
+          res.write table.to_json[0...-1] + ", \"spec_index\": #{table.spec_index}}"
+        end
+
+        # end JSON array
+        res.write "]"
      else
         res['Content-Type'] = 'application/json'
 
@@ -317,7 +331,7 @@ Cuba.define do
         res.write  "["
         tables.each_with_index do |table, index|
           res.write ", " if index > 0
-          res.write table.to_json
+          res.write table.to_json[0...-1] + ", \"spec_index\": #{table.spec_index}}"
         end
 
         # end JSON array
